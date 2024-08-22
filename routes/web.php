@@ -1,5 +1,6 @@
 <?php
 
+use App\DataTables\UsersDataTable;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,8 +19,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
+Route::get('user/{id}/edit', function($id){
+    return $id;
+})->name('user.edit');
+
+Route::get('/dashboard', function (UsersDataTable $dataTable) {
+    return $dataTable->render('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -29,3 +34,4 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
